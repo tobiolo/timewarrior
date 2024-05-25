@@ -7,8 +7,7 @@ add_subdirectory (themes)
 
 if (ASCIIDOCTOR_FOUND)
   set (ASCIIDOCTOR_OPTIONS "--attribute=manmanual=User Manuals"
-                           "--attribute=mansource=timew ${PROJECT_VERSION}"
-                           "--attribute=man-linkstyle='pass:[blue R < >]'")
+                           "--attribute=mansource=timew ${PROJECT_VERSION}")
 
   add_subdirectory (man1)
   add_subdirectory (man7)
