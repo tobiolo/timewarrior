@@ -15,12 +15,9 @@ jobs:
           - name: "Archlinux Base"
             runner: ubuntu-latest
             container: archlinux
-          - name: "Centos 7"
+          - name: "Centos Stream9"
             runner: ubuntu-latest
-            container: centos7
-          - name: "Centos 8"
-            runner: ubuntu-latest
-            container: centos8
+            container: centos-stream9
           - name: "Debian Stable"
             runner: ubuntu-latest
             container: debianstable

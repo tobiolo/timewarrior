@@ -1,23 +1,21 @@
-FROM centos:7
+FROM quay.io/centos/centos:stream9
 
-RUN yum update -y
-RUN yum install -y epel-release centos-release-scl
-RUN yum install -y \
-        asciidoctor \
-        cmake3 \
-        devtoolset-7-gcc* \
+RUN dnf -y distro-sync
+RUN dnf -y update
+RUN dnf -y install \
+        ruby \
+        cmake \
         gcc-c++ \
         git \
+        glibc-langpack-en.x86_64 \
         make \
         man \
-        python36 \
-        python36-dateutil
+        python3 \
+        python3-dateutil
+
+RUN gem install asciidoctor
 
 # Setup environment
-RUN ln -sf /opt/rh/devtoolset-7/root/usr/bin/g++ /usr/bin/c++
-RUN ln -sf /opt/rh/devtoolset-7/root/usr/bin/gcc /usr/bin/gcc
-RUN ln -sf /opt/rh/devtoolset-7/root/usr/bin/g++ /usr/bin/g++
-RUN ln -sf /usr/bin/cmake3 /usr/bin/cmake
 RUN ln -sf /usr/bin/python3 /usr/bin/python
 
 ENV LC_ALL en_US.UTF-8

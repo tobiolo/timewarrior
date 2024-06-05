@@ -24,18 +24,10 @@ services:
     security_opt:
       - label=type:container_runtime_t
     tty: true
-  test-centos7:
+  test-centos-stream9:
     build:
       context: .
-      dockerfile: test/docker/centos7
-    network_mode: "host"
-    security_opt:
-      - label=type:container_runtime_t
-    tty: true
-  test-centos8:
-    build:
-      context: .
-      dockerfile: test/docker/centos8
+      dockerfile: test/docker/centos-stream9
     network_mode: "host"
     security_opt:
       - label=type:container_runtime_t
