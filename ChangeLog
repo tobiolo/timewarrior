@@ -1,4 +1,6 @@
-- #600    Add retag command to internal help
+ - #616   Add zsh completion
+          (thanks to Ian Kenney)
+ - #600   Add retag command to internal help
           (thanks to Stefan Herold)
 
 ------ current release ---------------------------
