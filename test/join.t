@@ -29,7 +29,8 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
+from dateutil import tz
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -45,7 +46,7 @@ class TestJoin(TestCase):
     def test_join_closed_intervals(self):
         """Join two closed intervals"""
         now = datetime.now()
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
 
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
@@ -70,7 +71,7 @@ class TestJoin(TestCase):
     def test_join_closed_and_open_interval(self):
         """Join closed and open interval"""
         now = datetime.now()
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
 
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)

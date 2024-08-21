@@ -29,7 +29,7 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -136,7 +136,7 @@ class TestContinue(TestCase):
 
     def test_continue_with_tag_without_active_tracking(self):
         """Verify that continuing a specified interval works"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -174,7 +174,7 @@ class TestContinue(TestCase):
 
     def test_continue_with_tag_with_active_tracking(self):
         """Verify that continuing a specified interval stops active tracking"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -218,7 +218,7 @@ class TestContinue(TestCase):
 
     def test_continue_with_tag_and_date(self):
         """Verify that continuing an interval specified by tag with date continues at given date"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -259,7 +259,7 @@ class TestContinue(TestCase):
 
     def test_continue_with_tag_and_range(self):
         """Verify that continue an interval specified by tag with a range adds a copy with same tags at given range"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
@@ -308,7 +308,7 @@ class TestContinue(TestCase):
 
     def test_continue_with_id_and_date(self):
         """Verify that continuing a specified interval with date continues at given date"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -349,7 +349,7 @@ class TestContinue(TestCase):
 
     def test_continue_without_adjust_hint(self):
         """Verify that continuing without the :adjust hint fails to overwrite"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -363,7 +363,7 @@ class TestContinue(TestCase):
 
     def test_continue_with_adjust_hint(self):
         """Verify that continuing with the :adjust hint works"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -395,7 +395,7 @@ class TestContinue(TestCase):
 
     def test_continue_with_id_is_idempotent(self):
         """Verify that continuing with id is idempotent"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -427,7 +427,7 @@ class TestContinue(TestCase):
 
     def test_continue_with_tag_is_idempotent(self):
         """Verify that continuing with id is idempotent"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -459,7 +459,7 @@ class TestContinue(TestCase):
 
     def test_continue_with_id_and_range(self):
         """Verify that continue with a range adds a copy with same tags"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
@@ -503,7 +503,7 @@ class TestContinue(TestCase):
 
     def test_continue_with_future_time(self):
         """Verify that continue fails with time in the future"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)

@@ -29,7 +29,8 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta, time
+from datetime import datetime, timezone, timedelta, time
+from dateutil import tz
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -74,7 +75,7 @@ class TestShorten(TestCase):
         three_hours_before = now - timedelta(hours=3)
         four_hours_before = now - timedelta(hours=4)
 
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
         three_hours_before_utc = now_utc - timedelta(hours=3)
         four_hours_before_utc = now_utc - timedelta(hours=4)
         five_hours_before_utc = now_utc - timedelta(hours=5)

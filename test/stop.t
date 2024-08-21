@@ -30,7 +30,7 @@ import os
 import sys
 import unittest
 
-from datetime import datetime, timedelta, time
+from datetime import datetime, timezone, timedelta, time
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -45,7 +45,7 @@ class TestStop(TestCase):
 
     def test_timed_stop(self):
         """Test timed stop"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc))
@@ -60,7 +60,7 @@ class TestStop(TestCase):
 
     def test_stop_with_end_before_start_is_an_error(self):
         """Verify stop date before start date is an error"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc))

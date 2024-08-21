@@ -29,7 +29,8 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
+from dateutil import tz
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -44,7 +45,7 @@ class TestDelete(TestCase):
 
     def test_delete_open(self):
         """Delete a single open interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         five_hours_before_utc = now_utc - timedelta(hours=5)
         four_hours_before_utc = now_utc - timedelta(hours=4)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -68,7 +69,7 @@ class TestDelete(TestCase):
 
     def test_delete_closed(self):
         """Delete a single closed interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         five_hours_before_utc = now_utc - timedelta(hours=5)
         four_hours_before_utc = now_utc - timedelta(hours=4)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -92,7 +93,7 @@ class TestDelete(TestCase):
 
     def test_delete_multiple(self):
         """Delete a mix of open/closed intervals"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         five_hours_before_utc = now_utc - timedelta(hours=5)
         four_hours_before_utc = now_utc - timedelta(hours=4)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -113,7 +114,7 @@ class TestDelete(TestCase):
         three_hours_before = now - timedelta(hours=3)
         four_hours_before = now - timedelta(hours=4)
 
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
         four_hours_before_utc = now_utc - timedelta(hours=4)
         five_hours_before_utc = now_utc - timedelta(hours=5)
 

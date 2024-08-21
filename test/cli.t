@@ -31,7 +31,7 @@ import os
 import shutil
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -60,7 +60,7 @@ class TestCLI(TestCase):
 
     def test_tag_database_is_recreated(self):
         """Verify that calling 'timew' recreates tag database"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         four_hours_before_utc = now_utc - timedelta(hours=4)
         three_hours_before_utc = now_utc - timedelta(hours=3)

@@ -29,7 +29,7 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -44,7 +44,7 @@ class TestCancel(TestCase):
 
     def test_cancel_inactive_time_tracking(self):
         """Verify cancelling inactive time tracking"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
@@ -72,7 +72,7 @@ class TestCancel(TestCase):
 
     def test_cancel_active_time_tracking(self):
         """Verify cancelling active time tracking"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         one_hour_before_utc = now_utc - timedelta(hours=1)
 

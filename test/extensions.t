@@ -3,7 +3,8 @@ import json
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
+from dateutil import tz
 
 ###############################################################################
 #
@@ -64,7 +65,7 @@ class TestExtensions(TestCase):
         self.t.config("reports.debug.range", "'day'")
 
         now = datetime.now()
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
 
         yesterday_one_hour_before_utc = now_utc - timedelta(hours=1, days=1)
         yesterday_two_hours_before_utc = now_utc - timedelta(hours=2, days=1)
@@ -88,7 +89,7 @@ class TestExtensions(TestCase):
         self.t.config("reports.debug.range", "'day'")
 
         now = datetime.now()
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
 
         yesterday_one_hour_before_utc = now_utc - timedelta(hours=1, days=1)
         yesterday_two_hours_before_utc = now_utc - timedelta(hours=2, days=1)

@@ -29,7 +29,7 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -50,7 +50,7 @@ class TestTags(TestCase):
 
     def test_tags_listed(self):
         """Test the two tags used are both listed"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hour_before_utc = now_utc - timedelta(hours=2)
 

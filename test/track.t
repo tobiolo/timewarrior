@@ -30,7 +30,7 @@ import os
 import sys
 import unittest
 
-from datetime import datetime, timedelta, time
+from datetime import datetime, timezone, timedelta, time
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -101,7 +101,7 @@ class TestTrack(TestCase):
 
     def test_track_with_new_tag(self):
         """Call 'track' with new tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         one_hour_before_utc = now_utc - timedelta(hours=1)
@@ -114,7 +114,7 @@ class TestTrack(TestCase):
 
     def test_track_with_previous_tag(self):
         """Call 'track' with previous tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         one_hour_before_utc = now_utc - timedelta(hours=1)
@@ -127,7 +127,7 @@ class TestTrack(TestCase):
 
     def test_track_with_future_time(self):
         """Test track with future interval is not an error"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_after_utc = now_utc + timedelta(hours=2)
         one_hour_after_utc = now_utc + timedelta(hours=1)
@@ -145,7 +145,7 @@ class TestTrack(TestCase):
 
     def test_track_with_adjust_should_overwrite_enclosed_interval_with_same_start(self):
         """Command track with adjust should overwrite enclosed interval with same start"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         four_hours_before = now_utc - timedelta(hours=4)
         three_hours_before = now_utc - timedelta(hours=3)
@@ -164,7 +164,7 @@ class TestTrack(TestCase):
 
     def test_track_with_adjust_should_overwrite_enclosed_interval_with_same_end(self):
         """Command track with adjust should overwrite enclosed interval with same end"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         five_hours_before = now_utc - timedelta(hours=5)
         four_hours_before = now_utc - timedelta(hours=4)
@@ -183,7 +183,7 @@ class TestTrack(TestCase):
 
     def test_track_with_adjust_should_overwrite_identical_interval(self):
         """Command track with adjust should overwrite identical interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         four_hours_before = now_utc - timedelta(hours=4)
         three_hours_before = now_utc - timedelta(hours=3)

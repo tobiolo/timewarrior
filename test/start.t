@@ -29,7 +29,7 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta, time
+from datetime import datetime, timezone, timedelta, time
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -53,7 +53,7 @@ class TestStart(TestCase):
 
     def test_timed_start_past(self):
         """Test timed start past"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
@@ -68,7 +68,7 @@ class TestStart(TestCase):
 
     def test_timed_start_future(self):
         """Test timed start future"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         one_hour_after_utc = now_utc + timedelta(hours=1)
 
@@ -131,7 +131,7 @@ class TestStart(TestCase):
 
     def test_start_with_same_tags_as_current_tracking(self):
         """Test 'start' with same tags as current tracking should not start new tracking"""
-        utc_now = datetime.now().utcnow()
+        utc_now = datetime.now(timezone.utc)
         one_hour_ago_utc = utc_now - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z bar foo".format(one_hour_ago_utc))
@@ -225,7 +225,7 @@ class TestStart(TestCase):
 
     def test_start_with_new_tag(self):
         """Call 'start' with new tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         one_hour_before_utc = now_utc - timedelta(hours=1)
@@ -238,7 +238,7 @@ class TestStart(TestCase):
 
     def test_start_with_previous_tag(self):
         """Call 'start' with previous tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         three_hours_before_utc = now_utc - timedelta(hours=3)
         two_hours_before_utc = now_utc - timedelta(hours=2)

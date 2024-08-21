@@ -29,7 +29,8 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
+from dateutil import tz
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -44,7 +45,7 @@ class TestTag(TestCase):
 
     def test_should_use_default_on_missing_id_and_active_time_tracking(self):
         """Use open interval when retagging with missing id and active time tracking"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -67,7 +68,7 @@ class TestTag(TestCase):
 
     def test_should_fail_on_missing_id_and_inactive_time_tracking(self):
         """Retagging with missing id on inactive time tracking is an error"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -78,7 +79,7 @@ class TestTag(TestCase):
 
     def test_should_fail_on_no_tags(self):
         """Calling command 'retag' without tags is an error"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -89,7 +90,7 @@ class TestTag(TestCase):
 
     def test_retag_tagless_closed_interval_with_single_tag(self):
         """Retag a tagless, closed interval with a single tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -103,7 +104,7 @@ class TestTag(TestCase):
 
     def test_retag_tagless_closed_interval_with_multiple_tags(self):
         """Retag a tagless, closed interval with multiple tags"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -117,7 +118,7 @@ class TestTag(TestCase):
 
     def test_retag_tagless_open_interval_with_single_tag(self):
         """Retag a tagless, open interval with a single tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc))
@@ -131,7 +132,7 @@ class TestTag(TestCase):
 
     def test_retag_tagless_open_interval_with_multiple_tags(self):
         """Retag a tagless, open interval with multiple tags"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc))
@@ -145,7 +146,7 @@ class TestTag(TestCase):
 
     def test_retag_tagged_open_interval_with_single_tag(self):
         """Retag a tagged, open interval with a single tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z foo".format(one_hour_before_utc))
@@ -159,7 +160,7 @@ class TestTag(TestCase):
 
     def test_retag_tagged_open_interval_with_multiple_tags(self):
         """Retag a tagged, open interval with a single tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z foo".format(one_hour_before_utc))
@@ -173,7 +174,7 @@ class TestTag(TestCase):
 
     def test_retag_tagged_closed_interval_with_single_tag(self):
         """Retag a tagged, closed interval with a single tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z foo".format(one_hour_before_utc, now_utc))
@@ -187,7 +188,7 @@ class TestTag(TestCase):
 
     def test_retag_tagged_closed_interval_with_multiple_tags(self):
         """Retag a tagged, closed interval with multiple tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z foo bar".format(one_hour_before_utc, now_utc))
@@ -201,7 +202,7 @@ class TestTag(TestCase):
 
     def test_retag_multiple_intervals_with_single_tag(self):
         """Retag multiple intervals with a single tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -218,7 +219,7 @@ class TestTag(TestCase):
 
     def test_retag_multiple_intervals_with_multiple_tags(self):
         """Retag multiple intervals with multiple tags"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -239,7 +240,7 @@ class TestTag(TestCase):
         three_hours_before = now - timedelta(hours=3)
         four_hours_before = now - timedelta(hours=4)
 
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
         three_hours_before_utc = now_utc - timedelta(hours=3)
         four_hours_before_utc = now_utc - timedelta(hours=4)
         five_hours_before_utc = now_utc - timedelta(hours=5)
@@ -264,7 +265,7 @@ class TestTag(TestCase):
 
     def test_retag_with_identical_ids(self):
         """Call 'retag' with identical ids"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -277,7 +278,7 @@ class TestTag(TestCase):
 
     def test_retag_with_new_tag(self):
         """Call 'retag' with new tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         two_hours_before_utc = now_utc - timedelta(hours=2)
         one_hour_before_utc = now_utc - timedelta(hours=1)
@@ -290,7 +291,7 @@ class TestTag(TestCase):
 
     def test_retag_with_previous_tag(self):
         """Call 'retag' with previous tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         three_hours_before_utc = now_utc - timedelta(hours=3)
         two_hours_before_utc = now_utc - timedelta(hours=2)

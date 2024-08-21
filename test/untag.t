@@ -29,7 +29,8 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
+from dateutil import tz
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -44,7 +45,7 @@ class TestUntag(TestCase):
 
     def test_remove_tag_from_open_interval(self):
         """Remove a tag from an open interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z foo bar baz".format(one_hour_before_utc))
@@ -58,7 +59,7 @@ class TestUntag(TestCase):
 
     def test_should_use_default_on_missing_id_and_active_time_tracking(self):
         """Use open interval when removing tags with missing id and active time tracking"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -81,7 +82,7 @@ class TestUntag(TestCase):
 
     def test_should_fail_on_missing_id_and_inactive_time_tracking(self):
         """Removing tag with missing id on inactive time tracking is an error"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -92,7 +93,7 @@ class TestUntag(TestCase):
 
     def test_should_fail_on_no_tags(self):
         """Calling command 'untag' without tags is an error"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -103,7 +104,7 @@ class TestUntag(TestCase):
 
     def test_remove_tag_from_closed_interval(self):
         """Remove a tag from a closed interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z foo bar baz".format(one_hour_before_utc, now_utc))
@@ -117,7 +118,7 @@ class TestUntag(TestCase):
 
     def test_remove_tags_from_open_interval(self):
         """Remove tags from an open interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z foo bar baz".format(one_hour_before_utc))
@@ -131,7 +132,7 @@ class TestUntag(TestCase):
 
     def test_remove_tags_from_closed_interval(self):
         """Remove tags from a closed interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z foo bar baz".format(one_hour_before_utc, now_utc))
@@ -145,7 +146,7 @@ class TestUntag(TestCase):
 
     def test_remove_tag_from_multiple_intervals(self):
         """Remove a tag from multiple intervals"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -162,7 +163,7 @@ class TestUntag(TestCase):
 
     def test_remove_tags_from_multiple_intervals(self):
         """Remove tags from multiple intervals"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -183,7 +184,7 @@ class TestUntag(TestCase):
         three_hours_before = now - timedelta(hours=3)
         four_hours_before = now - timedelta(hours=4)
 
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
         three_hours_before_utc = now_utc - timedelta(hours=3)
         four_hours_before_utc = now_utc - timedelta(hours=4)
         five_hours_before_utc = now_utc - timedelta(hours=5)
@@ -218,7 +219,7 @@ class TestUntag(TestCase):
 
     def test_untag_with_identical_ids(self):
         """Call 'untag' with identical ids"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z foo bar".format(one_hour_before_utc, now_utc))

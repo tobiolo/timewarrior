@@ -26,7 +26,8 @@
 #
 ###############################################################################
 
-import datetime
+from datetime import datetime, timezone, timedelta
+from dateutil import tz
 import os
 import sys
 import unittest
@@ -36,7 +37,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'ext'))
 
 from basetest import TestCase
-from totals import *
+from totals import format_seconds, calculate_totals
 
 
 class TestTotals(TestCase):
@@ -57,11 +58,11 @@ class TestTotals(TestCase):
 
     def test_totals_with_filled_database(self):
         """totals extension should print report for filled database"""
-        now = datetime.datetime.now()
-        one_hour_before = now - datetime.timedelta(hours=1)
+        now = datetime.now()
+        one_hour_before = now - timedelta(hours=1)
 
-        now_utc = now.utcnow()
-        one_hour_before_utc = now_utc - datetime.timedelta(hours=1)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
+        one_hour_before_utc = now_utc - timedelta(hours=1)
 
         input_stream = [
             'color: off\n',
@@ -90,11 +91,11 @@ class TestTotals(TestCase):
 
     def test_totals_with_time_delta_larger_than_24_hours(self):
         """totals extension should print report for time delta larger than 24 hours"""
-        now = datetime.datetime.now()
-        two_days_before = now - datetime.timedelta(days=2)
+        now = datetime.now()
+        two_days_before = now - timedelta(days=2)
 
-        now_utc = now.utcnow()
-        two_days_before_utc = now_utc - datetime.timedelta(days=2)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
+        two_days_before_utc = now_utc - timedelta(days=2)
 
         input_stream = [
             'color: off\n',
@@ -123,11 +124,11 @@ class TestTotals(TestCase):
 
     def test_totals_with_emtpy_range(self):
         """totals extension should report error on emtpy range"""
-        now = datetime.datetime.now()
-        one_hour_before = now - datetime.timedelta(hours=1)
+        now = datetime.now()
+        one_hour_before = now - timedelta(hours=1)
 
-        now_utc = now.utcnow()
-        one_hour_before_utc = now_utc - datetime.timedelta(hours=1)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
+        one_hour_before_utc = now_utc - timedelta(hours=1)
 
         input_stream = [
             'color: off\n',
@@ -144,11 +145,11 @@ class TestTotals(TestCase):
 
     def test_totals_with_interval_without_tags(self):
         """totals extension should handle interval without tags"""
-        now = datetime.datetime.now()
-        one_hour_before = now - datetime.timedelta(hours=1)
+        now = datetime.now()
+        one_hour_before = now - timedelta(hours=1)
 
-        now_utc = now.utcnow()
-        one_hour_before_utc = now_utc - datetime.timedelta(hours=1)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
+        one_hour_before_utc = now_utc - timedelta(hours=1)
 
         input_stream = [
             'color: off\n',
@@ -177,11 +178,11 @@ class TestTotals(TestCase):
 
     def test_totals_with_interval_with_empty_tag_list(self):
         """totals extension should handle interval with empty tag list"""
-        now = datetime.datetime.now()
-        one_hour_before = now - datetime.timedelta(hours=1)
+        now = datetime.now()
+        one_hour_before = now - timedelta(hours=1)
 
-        now_utc = now.utcnow()
-        one_hour_before_utc = now_utc - datetime.timedelta(hours=1)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
+        one_hour_before_utc = now_utc - timedelta(hours=1)
 
         input_stream = [
             'color: off\n',
@@ -210,11 +211,11 @@ class TestTotals(TestCase):
 
     def test_totals_with_open_interval(self):
         """totals extension should handle open interval"""
-        now = datetime.datetime.now()
-        one_hour_before = now - datetime.timedelta(hours=1)
+        now = datetime.now()
+        one_hour_before = now - timedelta(hours=1)
 
-        now_utc = now.utcnow()
-        one_hour_before_utc = now_utc - datetime.timedelta(hours=1)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
+        one_hour_before_utc = now_utc - timedelta(hours=1)
 
         input_stream = [
             'color: off\n',
@@ -258,11 +259,11 @@ class TestTotals(TestCase):
 
     def test_totals_colored_with_filled_database(self):
         """totals extension should print report for filled database (colored)"""
-        now = datetime.datetime.now()
-        one_hour_before = now - datetime.timedelta(hours=1)
+        now = datetime.now()
+        one_hour_before = now - timedelta(hours=1)
 
-        now_utc = now.utcnow()
-        one_hour_before_utc = now_utc - datetime.timedelta(hours=1)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
+        one_hour_before_utc = now_utc - timedelta(hours=1)
 
         input_stream = [
             'color: on\n',
@@ -290,11 +291,11 @@ class TestTotals(TestCase):
 
     def test_totals_colored_with_emtpy_range(self):
         """totals extension should report error on emtpy range (colored)"""
-        now = datetime.datetime.now()
-        one_hour_before = now - datetime.timedelta(hours=1)
+        now = datetime.now()
+        one_hour_before = now - timedelta(hours=1)
 
-        now_utc = now.utcnow()
-        one_hour_before_utc = now_utc - datetime.timedelta(hours=1)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
+        one_hour_before_utc = now_utc - timedelta(hours=1)
 
         input_stream = [
             'color: on\n',
@@ -311,11 +312,11 @@ class TestTotals(TestCase):
 
     def test_totals_colored_with_interval_without_tags(self):
         """totals extension should handle interval without tags (colored)"""
-        now = datetime.datetime.now()
-        one_hour_before = now - datetime.timedelta(hours=1)
+        now = datetime.now()
+        one_hour_before = now - timedelta(hours=1)
 
-        now_utc = now.utcnow()
-        one_hour_before_utc = now_utc - datetime.timedelta(hours=1)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
+        one_hour_before_utc = now_utc - timedelta(hours=1)
 
         input_stream = [
             'color: on\n',
@@ -343,11 +344,11 @@ class TestTotals(TestCase):
 
     def test_totals_colored_with_interval_with_empty_tag_list(self):
         """totals extension should handle interval with empty tag list (colored)"""
-        now = datetime.datetime.now()
-        one_hour_before = now - datetime.timedelta(hours=1)
+        now = datetime.now()
+        one_hour_before = now - timedelta(hours=1)
 
-        now_utc = now.utcnow()
-        one_hour_before_utc = now_utc - datetime.timedelta(hours=1)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
+        one_hour_before_utc = now_utc - timedelta(hours=1)
 
         input_stream = [
             'color: on\n',
@@ -375,11 +376,11 @@ class TestTotals(TestCase):
 
     def test_totals_colored_with_open_interval(self):
         """totals extension should handle open interval (colored)"""
-        now = datetime.datetime.now()
-        one_hour_before = now - datetime.timedelta(hours=1)
+        now = datetime.now()
+        one_hour_before = now - timedelta(hours=1)
 
-        now_utc = now.utcnow()
-        one_hour_before_utc = now_utc - datetime.timedelta(hours=1)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
+        one_hour_before_utc = now_utc - timedelta(hours=1)
 
         input_stream = [
             'color: on\n',

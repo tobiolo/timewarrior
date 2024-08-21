@@ -29,7 +29,8 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
+from dateutil import tz
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -60,7 +61,7 @@ class TestExport(TestCase):
 
     def test_single_unobstructed_interval(self):
         """Single unobstructed interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z foo".format(one_hour_before_utc, now_utc))
@@ -75,7 +76,7 @@ class TestExport(TestCase):
     def test_changing_exclusion_does_not_change_flattened_intervals(self):
         """Changing exclusions does not change flattened intervals"""
         now = datetime.now()
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
 
         two_hours_before = now - timedelta(hours=2)
         three_hours_before = now - timedelta(hours=3)
@@ -123,7 +124,7 @@ class TestExport(TestCase):
     def test_changing_exclusion_does_change_open_interval(self):
         """Changing exclusions does change open interval"""
         now = datetime.now()
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
 
         two_hours_before = now - timedelta(hours=2)
         three_hours_before = now - timedelta(hours=3)
@@ -168,7 +169,7 @@ class TestExport(TestCase):
 
     def test_export_with_tag_with_spaces(self):
         """Interval with tag with spaces"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z \"tag with spaces\"".format(one_hour_before_utc, now_utc))
@@ -180,7 +181,7 @@ class TestExport(TestCase):
 
     def test_export_with_tag_with_quote(self):
         """Interval with tag with quote"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z \"tag with \\\"quote\"".format(one_hour_before_utc, now_utc))

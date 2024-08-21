@@ -30,7 +30,7 @@ import os
 import sys
 import unittest
 
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -174,7 +174,7 @@ class TestDOMTracked(TestCase):
 
     def test_dom_tracked_tags_with_no_tags(self):
         """Test 'dom.tracked.tags' with no tags"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         four_hours_before_utc = now_utc - timedelta(hours=4)
         five_hours_before_utc = now_utc - timedelta(hours=5)
 
@@ -185,7 +185,7 @@ class TestDOMTracked(TestCase):
 
     def test_dom_tracked_tags_with_tags(self):
         """Test 'dom.tracked.tags' with tags"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
         four_hours_before_utc = now_utc - timedelta(hours=4)
@@ -199,7 +199,7 @@ class TestDOMTracked(TestCase):
 
     def test_dom_tracked_tags_with_quoted_tag(self):
         """Test 'dom.tracked.tags' with a tag with quotes"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
         four_hours_before_utc = now_utc - timedelta(hours=4)
@@ -213,7 +213,7 @@ class TestDOMTracked(TestCase):
 
     def test_dom_tracked_tags_filtered_by_time(self):
         """Test 'dom.tracked.tags' with tags filtered by time"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -229,7 +229,7 @@ class TestDOMTracked(TestCase):
 
     def test_dom_tracked_tags_filtered_by_tag(self):
         """Test 'dom.tracked.tags' with tags filtered by tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -250,7 +250,7 @@ class TestDOMTracked(TestCase):
 
     def test_dom_tracked_ids(self):
         """Test 'dom.tracked.ids'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         four_hours_before_utc = now_utc - timedelta(hours=4)
         five_hours_before_utc = now_utc - timedelta(hours=5)
 
@@ -261,7 +261,7 @@ class TestDOMTracked(TestCase):
 
     def test_dom_tracked_ids_filtered_by_time(self):
         """Test 'dom.tracked.ids' filtered by time"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -277,7 +277,7 @@ class TestDOMTracked(TestCase):
 
     def test_dom_tracked_ids_filtered_by_tag(self):
         """Test 'dom.tracked.ids' filtered by tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)

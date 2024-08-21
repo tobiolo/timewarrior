@@ -29,7 +29,8 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
+from dateutil import tz
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -44,7 +45,7 @@ class TestAnnotate(TestCase):
 
     def test_add_annotation_to_open_interval(self):
         """Add an annotation to an open interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc))
@@ -58,7 +59,7 @@ class TestAnnotate(TestCase):
 
     def test_should_use_default_on_missing_id_and_active_time_tracking(self):
         """Use open interval when adding annotation with missing id and active time tracking"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -81,7 +82,7 @@ class TestAnnotate(TestCase):
 
     def test_should_fail_on_missing_id_and_inactive_time_tracking(self):
         """Adding annotation with missing id on inactive time tracking is an error"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -92,7 +93,7 @@ class TestAnnotate(TestCase):
 
     def test_remove_annotation_from_interval(self):
         """Calling 'annotate' without annotation removes annotation"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -106,7 +107,7 @@ class TestAnnotate(TestCase):
 
     def test_add_annotation_to_closed_interval(self):
         """Add an annotation to a closed interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -120,7 +121,7 @@ class TestAnnotate(TestCase):
 
     def test_add_annotation_to_multiple_intervals(self):
         """Add an annotation to multiple intervals"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -141,7 +142,7 @@ class TestAnnotate(TestCase):
         three_hours_before = now - timedelta(hours=3)
         four_hours_before = now - timedelta(hours=4)
 
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
         three_hours_before_utc = now_utc - timedelta(hours=3)
         four_hours_before_utc = now_utc - timedelta(hours=4)
         five_hours_before_utc = now_utc - timedelta(hours=5)
@@ -166,7 +167,7 @@ class TestAnnotate(TestCase):
 
     def test_annotate_with_identical_ids(self):
         """Call 'annotate' with identical ids"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -179,7 +180,7 @@ class TestAnnotate(TestCase):
 
     def test_annotate_with_embedded_quotes(self):
         """Call 'annotate' with embedded quotes"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("track {:%Y-%m-%dT%H:%M:%S}Z - {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc, now_utc))
@@ -198,7 +199,7 @@ class TestAnnotate(TestCase):
         three_hours_before = now - timedelta(hours=3)
         four_hours_before = now - timedelta(hours=4)
 
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
         three_hours_before_utc = now_utc - timedelta(hours=3)
         four_hours_before_utc = now_utc - timedelta(hours=4)
         five_hours_before_utc = now_utc - timedelta(hours=5)

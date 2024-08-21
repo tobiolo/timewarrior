@@ -29,7 +29,8 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
+from dateutil import tz
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -57,7 +58,7 @@ class TestLengthen(TestCase):
     def test_lengthen_synthetic_interval(self):
         """Lengthen a synthetic interval."""
         now = datetime.now()
-        now_utc = now.utcnow()
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc)
 
         three_hours_before = now - timedelta(hours=3)
         four_hours_before = now - timedelta(hours=4)

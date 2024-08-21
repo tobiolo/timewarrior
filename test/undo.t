@@ -28,7 +28,7 @@
 
 import os
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 
 import sys
 
@@ -45,7 +45,7 @@ class TestUndo(TestCase):
 
     def test_undo_annotate(self):
         """Test undo of command 'annotate'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -70,7 +70,7 @@ class TestUndo(TestCase):
 
     def test_undo_annotate_with_embedded_quotes(self):
         """Test undo of command 'annotate' with embedded quotes"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -100,7 +100,7 @@ class TestUndo(TestCase):
 
     def test_undo_cancel(self):
         """Test undo of command 'cancel'"""
-        one_hour_before_utc = datetime.now().utcnow() - timedelta(hours=1)
+        one_hour_before_utc = datetime.now(timezone.utc) - timedelta(hours=1)
 
         self.t("start {:%Y%m%dT%H%M%SZ} foo".format(one_hour_before_utc))
         self.t("cancel")
@@ -170,7 +170,7 @@ class TestUndo(TestCase):
 
     def test_undo_continue(self):
         """Test undo of command 'continue'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -198,7 +198,7 @@ class TestUndo(TestCase):
 
     def test_undo_delete(self):
         """Test undo of command 'delete'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -240,7 +240,7 @@ class TestUndo(TestCase):
 
     def test_undo_join(self):
         """Test undo of command 'join'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -275,7 +275,7 @@ class TestUndo(TestCase):
 
     def test_undo_lengthen(self):
         """Test undo of command 'lengthen'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -301,7 +301,7 @@ class TestUndo(TestCase):
 
     def test_undo_move(self):
         """Test undo of command 'move'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -327,7 +327,7 @@ class TestUndo(TestCase):
 
     def test_undo_resize(self):
         """Test undo of command 'resize'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -353,7 +353,7 @@ class TestUndo(TestCase):
 
     def test_undo_shorten(self):
         """Test undo of command 'shorten'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -379,7 +379,7 @@ class TestUndo(TestCase):
 
     def test_undo_split(self):
         """Test undo of command 'split'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -409,7 +409,7 @@ class TestUndo(TestCase):
 
     def test_undo_start(self):
         """Test undo of command 'start'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y%m%dT%H%M%SZ} foo".format(one_hour_before_utc))
@@ -427,7 +427,7 @@ class TestUndo(TestCase):
 
     def test_undo_consecutive_start(self):
         """Test undo of consecutive commands 'start'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -454,7 +454,7 @@ class TestUndo(TestCase):
 
     def test_undo_start_with_embedded_quotes_in_tag(self):
         """Test undo of 'start' with embedded quotes in tag"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -481,7 +481,7 @@ class TestUndo(TestCase):
 
     def test_undo_start_with_tag_enclosed_in_backslashes(self):
         """Test undo of 'start' with tag enclosed in backslashes"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y%m%dT%H%M%SZ} '\\foo\\'".format(one_hour_before_utc))
@@ -499,7 +499,7 @@ class TestUndo(TestCase):
 
     def test_undo_stop(self):
         """Test undo of command 'stop'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y%m%dT%H%M%SZ} foo".format(one_hour_before_utc))
@@ -522,7 +522,7 @@ class TestUndo(TestCase):
 
     def test_undo_tag(self):
         """Test undo of command 'tag'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 
@@ -547,7 +547,7 @@ class TestUndo(TestCase):
 
     def test_undo_track(self):
         """Test undo of command 'track'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -578,7 +578,7 @@ class TestUndo(TestCase):
 
     def test_undo_track_with_adjust_hint(self):
         """Test undo of command 'track' with adjust hint"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
         three_hours_before_utc = now_utc - timedelta(hours=3)
@@ -612,7 +612,7 @@ class TestUndo(TestCase):
 
     def test_undo_untag(self):
         """Test undo of command 'untag'"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
         two_hours_before_utc = now_utc - timedelta(hours=2)
 

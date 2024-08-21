@@ -29,7 +29,8 @@
 import os
 import sys
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
+from dateutil import tz
 
 # Ensure python finds the local simpletap module
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -43,7 +44,7 @@ class TestModify(TestCase):
 
     def test_modify_end_of_open_interval(self):
         """Attempt to modify end of an open interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc))
@@ -52,7 +53,7 @@ class TestModify(TestCase):
 
     def test_modify_start_of_open_interval(self):
         """Modify start of open interval"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc))
@@ -65,7 +66,7 @@ class TestModify(TestCase):
 
     def test_modify_invalid_subcommand(self):
         """Modify without (start|stop) subcommand"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc))
@@ -75,7 +76,7 @@ class TestModify(TestCase):
 
     def test_modify_no_end_time(self):
         """Modify without a time to stop at"""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
         one_hour_before_utc = now_utc - timedelta(hours=1)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(one_hour_before_utc))
@@ -85,7 +86,7 @@ class TestModify(TestCase):
 
     def test_modify_shorten_one_hour(self):
         """Shorten the interval by one hour."""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=3)))
         self.t("stop {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=1)))
@@ -102,7 +103,7 @@ class TestModify(TestCase):
 
     def test_modify_shorten_before_start(self):
         """Modify should not move end before start."""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=3)))
         self.t("stop {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=1)))
@@ -114,7 +115,7 @@ class TestModify(TestCase):
 
     def test_modify_start_to_after_end(self):
         """Modify should not move start beyond end."""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=3)))
         self.t("stop {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=1)))
@@ -126,7 +127,7 @@ class TestModify(TestCase):
 
     def test_modify_start_within_interval(self):
         """Increase start time within interval."""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=3)))
         self.t("stop {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=1)))
@@ -143,7 +144,7 @@ class TestModify(TestCase):
 
     def test_modify_move_stop_to_overlap_following_interval(self):
         """Move end time to overlap with following interval."""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=3)))
         self.t("stop {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=1)))
@@ -155,7 +156,7 @@ class TestModify(TestCase):
 
     def test_modify_move_start_to_overlap_preceeding_interval(self):
         """Move start time to overlap with preceeding interval."""
-        now_utc = datetime.now().utcnow()
+        now_utc = datetime.now(timezone.utc)
 
         self.t("start {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=3)))
         self.t("stop {:%Y-%m-%dT%H:%M:%S}Z".format(now_utc - timedelta(hours=1)))
@@ -172,7 +173,7 @@ class TestModify(TestCase):
         three_hours_before = now - timedelta(hours=3)
         four_hours_before = now - timedelta(hours=4)
 
-        now_utc = now.utcnow().replace(second=0, microsecond=0, minute=0)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc).replace(second=0, microsecond=0, minute=0)
         day_before = now_utc - timedelta(days=1)
         three_hours_before_utc = now_utc - timedelta(hours=3)
         four_hours_before_utc = now_utc - timedelta(hours=4)
@@ -212,7 +213,7 @@ class TestModify(TestCase):
         three_hours_before = now - timedelta(hours=3)
         four_hours_before = now - timedelta(hours=4)
 
-        now_utc = now.utcnow().replace(second=0, microsecond=0, minute=0)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc).replace(second=0, microsecond=0, minute=0)
         day_before = now_utc - timedelta(days=1)
         three_hours_before_utc = now_utc - timedelta(hours=3)
         four_hours_before_utc = now_utc - timedelta(hours=4)
@@ -255,7 +256,7 @@ class TestModify(TestCase):
         three_hours_before = now - timedelta(hours=3)
         four_hours_before = now - timedelta(hours=4)
 
-        now_utc = now.utcnow().replace(second=0, microsecond=0, minute=0)
+        now_utc = now.replace(tzinfo=tz.tzlocal()).astimezone(timezone.utc).replace(second=0, microsecond=0, minute=0)
         four_hours_before_utc = now_utc - timedelta(hours=4)
 
         self.t.configure_exclusions((four_hours_before.time(), three_hours_before.time()))
