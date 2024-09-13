@@ -1,3 +1,5 @@
+ - #633   Make week number parsing ISO8601 compliant
+          (thanks to Scott Mcdermott)
  - #616   Add zsh completion
           (thanks to Ian Kenney)
  - #600   Add retag command to internal help
