@@ -1,9 +1,11 @@
- - #633   Make week number parsing ISO8601 compliant
-          (thanks to Scott Mcdermott)
- - #616   Add zsh completion
-          (thanks to Ian Kenney)
  - #600   Add retag command to internal help
           (thanks to Stefan Herold)
+ - #616   Add zsh completion
+          (thanks to Ian Kenney)
+ - #633   Make week number parsing ISO8601 compliant
+          (thanks to Scott Mcdermott)
+ - #632   Fix py3.12 warnings for datetime usage, non-raw regex strings
+          (thanks to Scott Mcdermott)
 
 ------ current release ---------------------------
 
